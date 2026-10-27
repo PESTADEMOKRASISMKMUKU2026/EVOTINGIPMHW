@@ -6,42 +6,623 @@
 <title>E-Voting IPM & HW 2026</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f1f5f9;
-  color:#1e293b;
+:root {
+  --maroon: #760b20;
+  --dark: #390713;
+  --gold: #e5bb69;
+  --cream: #fff9ed;
+  --white: #ffffff;
 }
 
-header{
-  background:linear-gradient(135deg,#123b70,#1768c4);
-  color:white;
-  text-align:center;
-  padding:30px 15px;
+* {
+  box-sizing: border-box;
 }
 
-header h1{margin:12px 0;font-size:27px}
-header p{margin:7px 0}
-
-.label{
-  display:inline-block;
-  background:#facc15;
-  color:#123b70;
-  padding:8px 15px;
-  border-radius:20px;
-  font-weight:bold;
-  font-size:12px;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f0e8;
+  color: #29202a;
 }
 
-main{
-  max-width:900px;
-  margin:25px auto;
-  padding:0 15px;
+header {
+  background: linear-gradient(135deg, var(--dark), var(--maroon));
+  color: white;
+  text-align: center;
+  padding: 28px 15px;
+  border-bottom: 5px solid var(--gold);
 }
 
-.notice{
-  background:#fff7d6;
-  border:1px solid #f0d36b;
-  bo…
+header h1 {
+  margin: 0 0 10px;
+  font-size: 27px;
+}
+
+header p {
+  margin: 5px 0;
+  line-height: 1.6;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 13px;
+  border: 1px solid var(--gold);
+  border-radius: 20px;
+  color: var(--gold);
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.container {
+  max-width: 1050px;
+  margin: 25px auto;
+  padding: 0 15px;
+}
+
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px #00000010;
+  margin-bottom: 22px;
+}
+
+h2 {
+  color: var(--maroon);
+  margin-top: 0;
+}
+
+.intro {
+  text-align: center;
+  line-height: 1.7;
+}
+
+.org-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.org-card {
+  background: var(--cream);
+  border: 2px solid #ead8b8;
+  border-radius: 14px;
+  padding: 25px 15px;
+  text-align: center;
+}
+
+.org-icon {
+  font-size: 43px;
+}
+
+.org-card h3 {
+  color: var(--maroon);
+  font-size: 23px;
+}
+
+button {
+  border: none;
+  border-radius: 9px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--maroon);
+  color: white;
+}
+
+.btn-secondary {
+  background: #eee4d5;
+  color: var(--dark);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--dark);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.candidate {
+  border: 2px solid #e8e0d5;
+  border-radius: 14px;
+  overflow: hidden;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.candidate.selected {
+  border-color: var(--maroon);
+  box-shadow: 0 0 0 3px #760b201c;
+}
+
+.candidate img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  background: #f5f0e8;
+}
+
+.candidate-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.number {
+  background: var(--maroon);
+  color: white;
+  padding: 7px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  align-self: flex-start;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.candidate h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: var(--maroon);
+}
+
+.candidate p {
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.candidate button {
+  margin-top: auto;
+}
+
+.notice {
+  padding: 14px;
+  background: #fff4d9;
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.result-item {
+  margin: 22px 0;
+}
+
+.result-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.progress {
+  height: 15px;
+  background: #eee8e1;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--maroon), #bd435e);
+  transition: width 0.4s;
+}
+
+footer {
+  text-align: center;
+  padding: 25px 15px;
+  background: var(--dark);
+  color: white;
+  line-height: 1.8;
+  font-size: 13px;
+}
+
+.small {
+  color: #777;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  header h1 {
+    font-size: 22px;
+  }
+
+  .org-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .candidate-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .candidate img {
+    height: auto;
+    max-height: 480px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="badge">PESTA DEMOKRASI 2026</div>
+  <h1>E-VOTING IPM &amp; HW</h1>
+  <p>SMK Muhammadiyah Kunduran</p>
+  <p>Suaramu Menentukan Masa Depan Organisasi</p>
+</header>
+
+<main class="container">
+
+  <!-- HALAMAN UTAMA -->
+  <section id="home" class="card intro">
+    <h2>Selamat Datang di E-Voting</h2>
+    <p>
+      Gunakan hak pilihmu dengan bijak. Kenali calon, pertimbangkan
+      visi dan misi mereka, kemudian tentukan pilihanmu.
+    </p>
+
+    <div class="org-grid">
+      <div class="org-card">
+        <div class="org-icon">🏫</div>
+        <h3>IPM</h3>
+        <p>Ikatan Pelajar Muhammadiyah</p>
+        <button class="btn-primary" onclick="openElection('ipm')">
+          Pilih Calon IPM
+        </button>
+      </div>
+
+      <div class="org-card">
+        <div class="org-icon">⛺</div>
+        <h3>HW</h3>
+        <p>Hizbul Wathan</p>
+        <button class="btn-primary" onclick="openElection('hw')">
+          Pilih Calon HW
+        </button>
+      </div>
+    </div>
+
+    <div class="actions" style="justify-content:center">
+      <button class="btn-secondary" onclick="showResults()">
+        Lihat Hasil Sementara
+      </button>
+    </div>
+  </section>
+
+  <!-- HALAMAN PEMILIHAN -->
+  <section id="election" class="card hidden">
+    <h2 id="electionTitle">Pemilihan Calon</h2>
+
+    <p id="electionDescription">
+      Pilih satu pasangan calon yang kamu inginkan.
+    </p>
+
+    <div class="notice">
+      Periksa kembali nomor urut dan nama pasangan calon sebelum
+      menekan tombol pilih.
+    </div>
+
+    <div id="candidateList" class="candidate-grid"></div>
+
+    <div class="actions">
+      <button class="btn-secondary" onclick="goHome()">
+        ← Kembali
+      </button>
+    </div>
+  </section>
+
+  <!-- HALAMAN HASIL -->
+  <section id="results" class="card hidden">
+    <h2>Hasil Perolehan Suara</h2>
+
+    <p>
+      Hasil di bawah merupakan hitungan yang tersimpan pada browser ini,
+      bukan hasil gabungan seluruh pemilih.
+    </p>
+
+    <h3>IPM</h3>
+    <div id="ipmResults"></div>
+
+    <h3 style="margin-top:35px">HW</h3>
+    <div id="hwResults"></div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="goHome()">
+        Kembali ke Beranda
+      </button>
+    </div>
+
+    <p class="small">
+      Data pada versi ini disimpan di browser perangkat yang digunakan.
+      Hasil dapat berbeda jika dibuka dari perangkat atau browser lain.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <strong>E-Voting Pesta Demokrasi 2026</strong><br>
+  SMK Muhammadiyah Kunduran<br>
+  Jujur dalam memilih, bijak dalam menentukan.
+</footer>
+
+<script>
+const candidates = {
+  ipm: [
+    {
+      number: 1,
+      names: "Siti Aisyah F.U & Milana Anggraini",
+      image: "ipm1.jpg"
+    },
+    {
+      number: 2,
+      names: "Anggun Aprilia S & Almira Dirania M",
+      image: "ipm2.jpg"
+    },
+    {
+      number: 3,
+      names: "Fadli Wijaya & Ridho Maulana",
+      image: "ipm3.jpg"
+    }
+  ],
+
+  hw: [
+    {
+      number: 1,
+      names: "Dendy Hartono & Oktafa Satria A",
+      image: "hw1.jpg"
+    },
+    {
+      number: 2,
+      names: "Ahmad Choirul A & Shandy Sucipto",
+      image: "hw2.jpg"
+    },
+    {
+      number: 3,
+      names: "Rizki Agung & Ahmad Junaidi",
+      image: "hw3.jpg"
+    }
+  ]
+};
+
+let currentOrganization = "ipm";
+let selectedCandidate = null;
+
+function getVotes() {
+  const defaultVotes = {
+    ipm: [0, 0, 0],
+    hw: [0, 0, 0]
+  };
+
+  try {
+    const saved = localStorage.getItem("evotingVotes2026");
+    if (!saved) return defaultVotes;
+
+    const parsed = JSON.parse(saved);
+
+    ["ipm", "hw"].forEach(org => {
+      if (
+        parsed[org] &&
+        Array.isArray(parsed[org]) &&
+        parsed[org].length === 3 &&
+        parsed[org].every(n =>
+          Number.isInteger(n) && n >= 0
+        )
+      ) {
+        defaultVotes[org] = parsed[org];
+      }
+    });
+  } catch (error) {
+    console.error("Data suara tidak dapat dibaca.", error);
+  }
+
+  return defaultVotes;
+}
+
+function saveVotes(votes) {
+  localStorage.setItem("evotingVotes2026", JSON.stringify(votes));
+}
+
+function hideAll() {
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("election").classList.add("hidden");
+  document.getElementById("results").classList.add("hidden");
+}
+
+function goHome() {
+  hideAll();
+  document.getElementById("home").classList.remove("hidden");
+}
+
+function openElection(org) {
+  currentOrganization = org;
+  selectedCandidate = null;
+
+  hideAll();
+
+  document.getElementById("election").classList.remove("hidden");
+
+  document.getElementById("electionTitle").textContent =
+    org === "ipm"
+      ? "Pemilihan Ketua dan Wakil IPM"
+      : "Pemilihan Ketua dan Wakil HW";
+
+  document.getElementById("electionDescription").textContent =
+    "Silakan pilih satu pasangan calon " +
+    org.toUpperCase() + ".";
+
+  renderCandidates();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderCandidates() {
+  const list = document.getElementById("candidateList");
+  list.innerHTML = "";
+
+  candidates[currentOrganization].forEach(candidate => {
+    const article = document.createElement("article");
+    article.className = "candidate";
+
+    const img = document.createElement("img");
+    img.src = candidate.image;
+    img.alt = "Poster paslon " + candidate.number;
+    img.loading = "lazy";
+
+    img.onerror = function() {
+      this.style.display = "none";
+    };
+
+    const body = document.createElement("div");
+    body.className = "candidate-body";
+
+    const number = document.createElement("span");
+    number.className = "number";
+    number.textContent = "PASLON " +
+      String(candidate.number).padStart(2, "0");
+
+    const name = document.createElement("h3");
+    name.textContent = candidate.names;
+
+    const description = document.createElement("p");
+    description.textContent =
+      "Calon Ketua dan Wakil " +
+      currentOrganization.toUpperCase();
+
+    const button = document.createElement("button");
+    button.className = "btn-primary";
+    button.textContent = "Pilih Paslon " + candidate.number;
+
+    button.onclick = function() {
+      castVote(candidate.number - 1);
+    };
+
+    body.append(number, name, description, button);
+    article.append(img, body);
+    list.appendChild(article);
+  });
+}
+
+function castVote(index) {
+  const candidate = candidates[currentOrganization][index];
+
+  const confirmation = confirm(
+    "Konfirmasi pilihanmu:\n\n" +
+    "Organisasi: " + currentOrganization.toUpperCase() + "\n" +
+    "Paslon " + candidate.number + "\n" +
+    candidate.names + "\n\n" +
+    "Lanjutkan pilihan?"
+  );
+
+  if (!confirmation) return;
+
+  const votes = getVotes();
+  votes[currentOrganization][index] += 1;
+  saveVotes(votes);
+
+  alert(
+    "Pilihan berhasil dicatat di browser ini.\n\n" +
+    "Terima kasih telah berpartisipasi."
+  );
+
+  goHome();
+}
+
+function renderResult(org, targetId) {
+  const container = document.getElementById(targetId);
+  container.innerHTML = "";
+
+  const votes = getVotes();
+  const organizationVotes = votes[org];
+  const total = organizationVotes.reduce((sum, n) => sum + n, 0);
+
+  candidates[org].forEach((candidate, index) => {
+    const count = organizationVotes[index];
+    const percent = total > 0 ? (count / total) * 100 : 0;
+
+    const item = document.createElement("div");
+    item.className = "result-item";
+
+    const title = document.createElement("div");
+    title.className = "result-title";
+
+    const name = document.createElement("span");
+    name.textContent =
+      "Paslon " + candidate.number + " — " + candidate.names;
+
+    const countLabel = document.createElement("strong");
+    countLabel.textContent = count + " suara";
+
+    title.append(name, countLabel);
+
+    const progress = document.createElement("div");
+    progress.className = "progress";
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    bar.style.width = percent + "%";
+
+    progress.appendChild(bar);
+
+    const percentLabel = document.createElement("p");
+    percentLabel.className = "small";
+    percentLabel.textContent = percent.toFixed(1) + "%";
+
+    item.append(title, progress, percentLabel);
+    container.appendChild(item);
+  });
+
+  const totalLabel = document.createElement("p");
+  totalLabel.innerHTML = "<strong>Total suara tercatat: " +
+    total + "</strong>";
+
+  container.appendChild(totalLabel);
+}
+
+function showResults() {
+  hideAll();
+  document.getElementById("results").classList.remove("hidden");
+
+  renderResult("ipm", "ipmResults");
+  renderResult("hw", "hwResults");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>
